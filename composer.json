@@ -1,0 +1,21 @@
+{
+    "name": "laramore/laramore-uuid-field",
+    "description": "Add an UUID field for Laramore",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Laramore\\": "src/"
+        }
+    },
+    "require": {
+        "laramore/laramore": "^0.1.0",
+        "ramsey/uuid": "^3.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "NastuzziSamy",
+            "email": "samy@nastuzzi.fr"
+        }
+    ]
+}
