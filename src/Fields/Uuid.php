@@ -17,7 +17,7 @@ use Laramore\Type;
 class Uuid extends Field
 {
     protected $type = Type::UUID;
-    protected $generateByDefault = false;
+    protected $autoGenerate = false;
 
     public function castValue($model, $value)
     {
@@ -42,21 +42,16 @@ class Uuid extends Field
         return $this->castValue(null, UuidGenerator::uuid4());
     }
 
-    public function getDefault()
+    protected function locking()
     {
-        if ($this->generateByDefault) {
-            return $this->generateUuid();
-        } else {
-            return $this->default;
-        }
-    }
+        parent::locking();
 
-    public function hasProperty(string $key): bool
-    {
-        if ($key === 'default' || $this->generateByDefault) {
-            return true;
+        if ($this->autoGenerate) {
+            $this->observe('saving', function ($model) {
+                if (is_null($model->{$this->name})) {
+                    $model->{$this->name} = $this->generateUuid();
+                }
+            });
         }
-
-        return parent::hasProperty($key);
     }
 }
