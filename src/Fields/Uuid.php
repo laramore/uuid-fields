@@ -10,27 +10,41 @@
 
 namespace Laramore\Fields;
 
-use Ramsey\Uuid as UuidGenerator;
+use Ramsey\Uuid\Uuid as UuidGenerator;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Laramore\Type;
 
 class Uuid extends Field
 {
     protected $type = Type::UUID;
-    protected $hasDefault = false;
+    protected $generateByDefault = false;
 
     public function castValue($model, $value)
     {
         return is_null($value) ? $value : (string) $value;
     }
 
+    public function setValue($model, $value)
+    {
+        if (!($value instanceof UuidGenerator)) {
+            try {
+                $value = UuidGenerator::fromString($value);
+            } catch (InvalidUuidStringException $e) {
+                throw new \Exception('The given value is not an uuid');
+            }
+        }
+
+        return $this->castValue($model, $value);
+    }
+
     public function generateUuid()
     {
-        return $this->castValue(UuidGenerator::uuid5());
+        return $this->castValue(null, UuidGenerator::uuid4());
     }
 
     public function getDefault()
     {
-        if ($this->hasDefault) {
+        if ($this->generateByDefault) {
             return $this->generateUuid();
         } else {
             return $this->default;
@@ -39,7 +53,7 @@ class Uuid extends Field
 
     public function hasProperty(string $key): bool
     {
-        if ($key === 'default' || $this->hasDefault) {
+        if ($key === 'default' || $this->generateByDefault) {
             return true;
         }
 
