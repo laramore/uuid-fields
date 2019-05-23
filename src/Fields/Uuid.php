@@ -13,14 +13,19 @@ namespace Laramore\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Laramore\Facades\TypeManager;
 use Laramore\{
     Type, Observer
 };
 
 class Uuid extends Field
 {
-    protected $type = Type::UUID;
     protected $autoGenerate = false;
+
+    public function getType(): Type
+    {
+        return TypeManager::uuid();
+    }
 
     public function castValue($model, $value)
     {

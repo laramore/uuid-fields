@@ -17,5 +17,12 @@
             "name": "NastuzziSamy",
             "email": "samy@nastuzzi.fr"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laramore\\Providers\\UuidLoader"
+            ]
+        }
+    }
 }
