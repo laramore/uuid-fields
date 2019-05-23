@@ -42,7 +42,20 @@ class Uuid extends Field
             }
         }
 
-        return $this->castValue($model, $value);
+        return $value->getBytes();
+    }
+
+    public function getValue($model, $value)
+    {
+        if (!($value instanceof UuidGenerator)) {
+            try {
+                $value = UuidGenerator::fromBytes($value);
+            } catch (InvalidUuidStringException $e) {
+                throw new \Exception('The given value is not an uuid');
+            }
+        }
+
+        return $value->toString();
     }
 
     public function generateUuid()
