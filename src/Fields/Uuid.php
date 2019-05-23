@@ -22,16 +22,35 @@ class Uuid extends Field
 {
     protected $autoGenerate = false;
 
+    /**
+     * Return the field type.
+     *
+     * @return Type
+     */
     public function getType(): Type
     {
         return TypeManager::uuid();
     }
 
+    /**
+     * Cast the field value in the right type.
+     *
+     * @param  mixed $model
+     * @param  mixed $value
+     * @return string
+     */
     public function castValue($model, $value)
     {
         return is_null($value) ? $value : (string) $value;
     }
 
+    /**
+     * Return the field value to set in the model.
+     *
+     * @param  mixed $model
+     * @param  mixed $value
+     * @return string
+     */
     public function setValue($model, $value)
     {
         if (!($value instanceof UuidGenerator)) {
@@ -45,6 +64,13 @@ class Uuid extends Field
         return $value->getBytes();
     }
 
+    /**
+     * Return the field value to set in the model.
+     *
+     * @param  mixed $model
+     * @param  mixed $value
+     * @return string
+     */
     public function getValue($model, $value)
     {
         if (!($value instanceof UuidGenerator)) {
@@ -55,14 +81,24 @@ class Uuid extends Field
             }
         }
 
-        return $value->toString();
+        return $this->castValue($model, $value);
     }
 
-    public function generateUuid()
+    /**
+     * Return a new generated uuid.
+     *
+     * @return string
+     */
+    public function generateUuid(): string
     {
         return $this->castValue(null, UuidGenerator::uuid4());
     }
 
+    /**
+     * Add an observe to generate a new uuid for the attribute if it not exists.
+     *
+     * @return void
+     */
     protected function locking()
     {
         parent::locking();

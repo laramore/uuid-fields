@@ -37,6 +37,11 @@ class UuidLoader extends ServiceProvider
         }
     }
 
+    /**
+     * Add the migration field 'binaryUuid'.
+     *
+     * @return void
+     */
     protected function addMigrationFields()
     {
         $name = $this->migrationUuid;
