@@ -14,9 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Laramore\Facades\TypeManager;
-use Laramore\{
-    Type, Observer
-};
+use Laramore\Observers\ModelObserver;
+use Laramore\Type;
 
 class Uuid extends Field
 {
@@ -104,11 +103,11 @@ class Uuid extends Field
         parent::locking();
 
         if ($this->autoGenerate) {
-            $this->observe('saving', new Observer('generate_uuid_for_'.$this->name, function (Model $model) {
+            $this->addObserver(new ModelObserver('generate_uuid_for_'.$this->name, function (Model $model) {
                 if (is_null($model->{$this->name})) {
                     $model->{$this->name} = $this->generateUuid();
                 }
-            }, 75));
+            }, ModelObserver::MEDIUM_PRIORITY, 'saving'));
         }
     }
 }
