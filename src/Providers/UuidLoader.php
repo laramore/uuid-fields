@@ -11,11 +11,12 @@
 namespace Laramore\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\{
-	Grammar, MySqlGrammar
+    Grammar, MySqlGrammar
 };
-use Laramore\Facades\TypeManager;
+use Laramore\Facades\{
+    TypeManager, GrammarObservableManager
+};
 
 class UuidLoader extends ServiceProvider
 {
@@ -44,17 +45,11 @@ class UuidLoader extends ServiceProvider
      */
     protected function addMigrationFields()
     {
-        $name = $this->migrationUuid;
-
-        Blueprint::macro($this->migrationUuid, function ($column) use ($name) {
-            return $this->addColumn($name, $column);
-        });
-
-        Grammar::macro('type'.ucfirst($this->migrationUuid), function ($column) use ($name) {
+        GrammarObservableManager::getObservableHandler(Grammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) use ($name) {
             return $this->typeUuid($column);
         });
 
-        MySqlGrammar::macro('type'.ucfirst($this->migrationUuid), function ($column) use ($name) {
+        GrammarObservableManager::getObservableHandler(MySqlGrammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) use ($name) {
             return 'binary(16)';
         });
     }

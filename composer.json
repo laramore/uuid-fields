@@ -9,7 +9,7 @@
     },
     "require": {
         "ramsey/uuid": "^3.8",
-        "laramore/laramore": "^0.2.0"
+        "laramore/laramore": ">=0.2"
     },
     "license": "MIT",
     "authors": [
