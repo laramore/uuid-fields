@@ -33,9 +33,9 @@ class UuidLoader extends ServiceProvider
 
         if (TypeManager::hasValueName('migration')) {
             $type->setValue('migration', $this->migrationUuid);
-
-            $this->addMigrationFields();
         }
+
+        $this->addMigrationFields();
     }
 
     /**
@@ -45,11 +45,11 @@ class UuidLoader extends ServiceProvider
      */
     protected function addMigrationFields()
     {
-        GrammarObservableManager::getObservableHandler(Grammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) use ($name) {
+        GrammarObservableManager::getObservableHandler(Grammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
             return $this->typeUuid($column);
         });
 
-        GrammarObservableManager::getObservableHandler(MySqlGrammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) use ($name) {
+        GrammarObservableManager::getObservableHandler(MySqlGrammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
             return 'binary(16)';
         });
     }
