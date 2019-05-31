@@ -45,11 +45,18 @@ class UuidLoader extends ServiceProvider
      */
     protected function addMigrationFields()
     {
-        GrammarObservableManager::getObservableHandler(Grammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
+        // For all grammars, the uuid is already a binary or a specific uuid type.
+        $observable = GrammarObservableManager::getObservableHandler(Grammar::class);
+        $observable->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
             return $this->typeUuid($column);
         });
 
-        GrammarObservableManager::getObservableHandler(MySqlGrammar::class)->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
+        // For only the Mysql grammar, the uuid a 16 length string.
+        // So, in order to optimize it, we create a new type: a binary one.
+        // It is programatically converted by the Uuid field:
+        // Binary (for the database) <=> String (for all PHP interactions)
+        $observable = GrammarObservableManager::getObservableHandler(MySqlGrammar::class);
+        $observable->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
             return 'binary(16)';
         });
     }
