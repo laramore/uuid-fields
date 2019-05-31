@@ -54,9 +54,13 @@ class Uuid extends Field
     {
         if (!($value instanceof UuidGenerator)) {
             try {
-                $value = UuidGenerator::fromString($value);
+                $value = UuidGenerator::fromString($this->castValue($model, $value));
             } catch (InvalidUuidStringException $e) {
-                throw new \Exception('The given value is not an uuid');
+                try {
+                    $value = UuidGenerator::fromBytes($value);
+                } catch (InvalidUuidStringException $e) {
+                    throw new \Exception('The given value is not an uuid');
+                }
             }
         }
 
