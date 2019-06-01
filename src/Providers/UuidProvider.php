@@ -18,7 +18,7 @@ use Laramore\Facades\{
     TypeManager, GrammarObservableManager
 };
 
-class UuidLoader extends ServiceProvider
+class UuidProvider extends ServiceProvider
 {
     protected $migrationUuid = 'binaryUuid';
 
