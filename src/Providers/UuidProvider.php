@@ -14,27 +14,27 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Grammars\{
     Grammar, MySqlGrammar
 };
-use Laramore\Facades\{
-    TypeManager, GrammarObservableManager
-};
+use Laramore\Traits\Providers\MergesConfig;
+use Types, GrammarTypes;
 
 class UuidProvider extends ServiceProvider
 {
-    protected $migrationUuid = 'binaryUuid';
+    use MergesConfig;
 
     /**
      * Prepare all metas and lock them.
      *
      * @return void
      */
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/types.php', 'types',
+        );
+    }
+
     public function boot()
     {
-        $type = TypeManager::setType('uuid');
-
-        if (TypeManager::hasValueName('migration')) {
-            $type->setValue('migration', $this->migrationUuid);
-        }
-
         $this->addMigrationFields();
     }
 
@@ -45,18 +45,27 @@ class UuidProvider extends ServiceProvider
      */
     protected function addMigrationFields()
     {
+        $uuidType = Types::get('uuid')->getDefaultMigrationType();
+        $primaryType = Types::get('primaryUuid')->getDefaultMigrationType();
+
         // For all grammars, the uuid is already a binary or a specific uuid type.
-        $observable = GrammarObservableManager::getObservableHandler(Grammar::class);
-        $observable->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
+        $handler = GrammarTypes::getHandler(Grammar::class);
+        $handler->create($uuidType, $uuidType, function ($column) {
             return $this->typeUuid($column);
         });
 
-        // For only the Mysql grammar, the uuid a 16 length string.
+        // For all grammars, the uuid is already a binary or a specific uuid type.
+        $handler = GrammarTypes::getHandler(Grammar::class);
+        $handler->create($primaryType, $primaryType, function ($column) {
+            return $this->typeUuid($column);
+        });
+
+        // For only the Mysql grammar, the uuid type is a 16 length string.
         // So, in order to optimize it, we create a new type: a binary one.
         // It is programatically converted by the Uuid field:
         // Binary (for the database) <=> String (for all PHP interactions)
-        $observable = GrammarObservableManager::getObservableHandler(MySqlGrammar::class);
-        $observable->createObserver($this->migrationUuid, $this->migrationUuid, function ($column) {
+        $handler = GrammarTypes::getHandler(MySqlGrammar::class);
+        $handler->create($uuidType, $uuidType, function ($column) {
             return 'binary(16)';
         });
     }
