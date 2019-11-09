@@ -22,7 +22,7 @@ class UuidProvider extends ServiceProvider
     use MergesConfig;
 
     /**
-     * Prepare all configs and default rules and types.
+     * Prepare all configs and default rules, types and fields.
      *
      * @return void
      */
@@ -34,6 +34,10 @@ class UuidProvider extends ServiceProvider
 
         $this->mergeConfigFrom(
             __DIR__.'/../../config/types.php', 'types',
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/fields.php', 'fields',
         );
     }
 
