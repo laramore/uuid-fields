@@ -13,22 +13,28 @@ namespace Laramore\Fields;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
-use Laramore\Facades\TypeManager;
-use Laramore\Observers\ModelObserver;
-use Laramore\Type;
+use Laramore\Eloquent\ModelEvent;
+use Laramore\Elements\Type;
+use Types;
 
 class Uuid extends Field
 {
     protected $autoGenerate = false;
 
     /**
-     * Return the field type.
+     * Cast the field value in the right type.
      *
-     * @return Type
+     * @param  mixed $model
+     * @param  mixed $value
+     * @return string
      */
-    public function getType(): Type
+    public function dry($value)
     {
-        return TypeManager::uuid();
+        if (!($value instanceof UuidGenerator)) {
+            $value = $this->getOwner()->transformFieldAttribute($this, $value);
+        }
+
+        return $value->getBytes();
     }
 
     /**
@@ -38,53 +44,33 @@ class Uuid extends Field
      * @param  mixed $value
      * @return string
      */
-    public function castValue($model, $value)
-    {
-        return is_null($value) ? $value : (string) $value;
-    }
-
-    /**
-     * Return the field value to set in the model.
-     *
-     * @param  mixed $model
-     * @param  mixed $value
-     * @return string
-     */
-    public function setValue($model, $value)
+    public function cast($value)
     {
         if (!($value instanceof UuidGenerator)) {
+            $value = $this->getOwner()->transformFieldAttribute($this, $value);
+        }
+
+        return $value;
+    }
+
+    public function transform($value)
+    {
+        if (is_string($value)) {
             try {
-                $value = UuidGenerator::fromString($this->castValue($model, $value));
+                return UuidGenerator::fromString($value);
             } catch (InvalidUuidStringException $e) {
                 try {
-                    $value = UuidGenerator::fromBytes($value);
-                } catch (InvalidUuidStringException $e) {
-                    throw new \Exception('The given value is not an uuid');
-                }
+                    return UuidGenerator::fromBytes($value);
+                } catch (InvalidUuidStringException $e) {}
             }
         }
 
-        return $value->getBytes();
+        throw new \Exception('The given value is not an uuid');
     }
 
-    /**
-     * Return the field value to set in the model.
-     *
-     * @param  mixed $model
-     * @param  mixed $value
-     * @return string
-     */
-    public function getValue($model, $value)
+    public function serialize($value)
     {
-        if (!($value instanceof UuidGenerator)) {
-            try {
-                $value = UuidGenerator::fromBytes($value);
-            } catch (InvalidUuidStringException $e) {
-                throw new \Exception('The given value is not an uuid');
-            }
-        }
-
-        return $this->castValue($model, $value);
+        return (string) $value;
     }
 
     /**
@@ -92,9 +78,9 @@ class Uuid extends Field
      *
      * @return string
      */
-    public function generateUuid(): string
+    public function generate(): string
     {
-        return $this->castValue(null, UuidGenerator::uuid4());
+        return $this->getOwner()->castFieldAttribute($this, UuidGenerator::uuid4());
     }
 
     /**
@@ -107,11 +93,16 @@ class Uuid extends Field
         parent::locking();
 
         if ($this->autoGenerate) {
-            $this->addObserver(new ModelObserver('generate_uuid_for_'.$this->name, function (Model $model) {
-                if (is_null($model->{$this->name})) {
-                    $model->{$this->name} = $this->generateUuid();
-                }
-            }, ModelObserver::MEDIUM_PRIORITY, 'saving'));
+            $this->setGeneration();
         }
+    }
+
+    protected function setGeneration()
+    {
+        $this->getMeta()->getModelEventHandler()->add(new ModelEvent('generate_uuid_for_'.$this->name, function (Model $model) {
+            if (is_null($model->{$this->name})) {
+                $model->{$this->name} = $this->generate();
+            }
+        }, ModelEvent::MEDIUM_PRIORITY, 'saving'));
     }
 }
