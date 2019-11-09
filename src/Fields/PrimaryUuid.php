@@ -14,5 +14,4 @@ use Laramore\Interfaces\IsAPrimaryField;
 
 class PrimaryUuid extends Uuid implements IsAPrimaryField
 {
-    protected $autoGenerate = true;
 }

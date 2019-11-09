@@ -15,12 +15,10 @@ use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Laramore\Eloquent\ModelEvent;
 use Laramore\Elements\Type;
-use Types;
+use Rules, Types;
 
 class Uuid extends Field
 {
-    protected $autoGenerate = false;
-
     /**
      * Cast the field value in the right type.
      *
@@ -92,7 +90,7 @@ class Uuid extends Field
     {
         parent::locking();
 
-        if ($this->autoGenerate) {
+        if (Rules::autoGenerate()) {
             $this->setGeneration();
         }
     }

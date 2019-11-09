@@ -22,17 +22,26 @@ class UuidProvider extends ServiceProvider
     use MergesConfig;
 
     /**
-     * Prepare all metas and lock them.
+     * Prepare all configs and default rules and types.
      *
      * @return void
      */
     public function register()
     {
         $this->mergeConfigFrom(
+            __DIR__.'/../../config/rules.php', 'rules',
+        );
+
+        $this->mergeConfigFrom(
             __DIR__.'/../../config/types.php', 'types',
         );
     }
 
+    /**
+     * At booting, add migration fields.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->addMigrationFields();

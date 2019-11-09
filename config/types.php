@@ -21,10 +21,15 @@ return [
         ],
         'primaryUuid' => [
             'default_rules' => [
-                'visible', 'required',
+                'visible', 'required', 'auto_generate',
             ],
             'default_migration_type' => 'primaryUuid',
             'migration_type' => 'primaryUuid',
+        ],
+        'foreignUuid' => [
+            'default_rules' => [
+                'visible', 'fillable', 'required',
+            ],
         ],
     ],
 
