@@ -12,13 +12,13 @@ return [
     */
 
     'configurations' => [
-        'Laramore\\Fields\\Uuid' => [
+        Laramore\Fields\Uuid::class => [
             'type' => 'uuid',
         ],
-        'Laramore\\Fields\\PrimaryUuid' => [
+        Laramore\Fields\PrimaryUuid::class => [
             'type' => 'primary_uuid',
         ],
-        'Laramore\\Fields\\ForeignUuid' => [
+        Laramore\Fields\ForeignUuid::class => [
             'type' => 'foreign_uuid',
         ],
     ],

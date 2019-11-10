@@ -20,11 +20,10 @@ use Rules, Types;
 class Uuid extends Field
 {
     /**
-     * Cast the field value in the right type.
+     * Dry the value in a simple format.
      *
-     * @param  mixed $model
      * @param  mixed $value
-     * @return string
+     * @return mixed
      */
     public function dry($value)
     {
@@ -36,11 +35,10 @@ class Uuid extends Field
     }
 
     /**
-     * Cast the field value in the right type.
+     * Cast the value in the correct format.
      *
-     * @param  mixed $model
      * @param  mixed $value
-     * @return string
+     * @return mixed
      */
     public function cast($value)
     {
@@ -51,21 +49,35 @@ class Uuid extends Field
         return $value;
     }
 
+    /**
+     * Transform the value to be used as a correct format.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
     public function transform($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             try {
                 return UuidGenerator::fromString($value);
             } catch (InvalidUuidStringException $e) {
                 try {
                     return UuidGenerator::fromBytes($value);
-                } catch (InvalidUuidStringException $e) {}
+                } catch (InvalidUuidStringException $e) {
+                    // Just throw.
+                }
             }
         }
 
         throw new \Exception('The given value is not an uuid');
     }
 
+    /**
+     * Serialize the value for outputs.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
     public function serialize($value)
     {
         return (string) $value;
@@ -95,6 +107,11 @@ class Uuid extends Field
         }
     }
 
+    /**
+     * Define the auto generation if asked.
+     *
+     * @return void
+     */
     protected function setGeneration()
     {
         $this->getMeta()->getModelEventHandler()->add(new ModelEvent('generate_uuid_for_'.$this->name, function (Model $model) {

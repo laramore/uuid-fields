@@ -48,7 +48,7 @@ class UuidProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->addMigrationFields();
+         $this->addMigrationFields();
     }
 
     /**
@@ -76,7 +76,7 @@ class UuidProvider extends ServiceProvider
         // For only the Mysql grammar, the uuid type is a 16 length string.
         // So, in order to optimize it, we create a new type: a binary one.
         // It is programatically converted by the Uuid field:
-        // Binary (for the database) <=> String (for all PHP interactions)
+        // Binary (for the database) <=> String (for all PHP interactions).
         $handler = GrammarTypes::getHandler(MySqlGrammar::class);
         $handler->create($uuidType, $uuidType, function ($column) {
             return 'binary(16)';
