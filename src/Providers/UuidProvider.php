@@ -14,7 +14,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Grammars\{
     Grammar, MySqlGrammar
 };
-use Laramore\Traits\Providers\MergesConfig;
+use Laramore\Traits\Provider\MergesConfig;
 use Types, GrammarTypes;
 
 class UuidProvider extends ServiceProvider

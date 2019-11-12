@@ -12,7 +12,4 @@ namespace Laramore\Fields;
 
 class ForeignUuid extends Foreign
 {
-    protected static $defaultFields = [
-        'id' => Uuid::class,
-    ];
 }
