@@ -20,7 +20,15 @@ return [
         ],
         Laramore\Fields\ForeignUuid::class => [
             'type' => 'foreign_uuid',
+            'fields' => [
+                'id' => [
+                    Laramore\Fields\Uuid::class,
+                    ['visible', 'fillable', 'not_zero'],
+                ],
+            ],
+            'links' => [],
+            'field_name_template' => '${name}_${fieldname}',
+            'link_name_template' => '*{modelname}',
         ],
     ],
-
 ];

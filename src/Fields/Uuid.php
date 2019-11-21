@@ -94,30 +94,22 @@ class Uuid extends Field
     }
 
     /**
-     * Add an observe to generate a new uuid for the attribute if it not exists.
+     * Indicate if this has a default value.
      *
-     * @return void
+     * @return boolean
      */
-    protected function locking()
+    public function hasDefault(): bool
     {
-        parent::locking();
-
-        if (Rules::autoGenerate()) {
-            $this->setGeneration();
-        }
+        return (isset($this->default) || $this->hasRule(Rules::autoGenerate()));
     }
 
     /**
-     * Define the auto generation if asked.
+     * Return the default value.
      *
      * @return void
      */
-    protected function setGeneration()
+    public function getDefault()
     {
-        $this->getMeta()->getModelEventHandler()->add(new ModelEvent('generate_uuid_for_'.$this->name, function (Model $model) {
-            if (is_null($model->{$this->name})) {
-                $model->{$this->name} = $this->generate();
-            }
-        }, ModelEvent::MEDIUM_PRIORITY, 'saving'));
+        return ($this->default ?? $this->generate());
     }
 }
