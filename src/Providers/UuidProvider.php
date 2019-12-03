@@ -14,12 +14,27 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Grammars\{
     Grammar, MySqlGrammar
 };
-use Laramore\Traits\Provider\MergesConfig;
 use Types, GrammarTypes;
 
 class UuidProvider extends ServiceProvider
 {
-    use MergesConfig;
+    /**
+     * Define the field configuration files.
+     *
+     * @var array
+     */
+    protected static $fields = [
+        'foreign_uuid', 'primary_uuid', 'uuid',
+    ];
+
+    /**
+     * Define the field configuration files.
+     *
+     * @var array
+     */
+    protected static $types = [
+        'foreign_uuid', 'primary_uuid', 'uuid',
+    ];
 
     /**
      * Prepare all configs and default rules, types and fields.
@@ -28,17 +43,21 @@ class UuidProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/rules.php', 'rules',
-        );
+        foreach (static::$fields as $field) {
+            $this->mergeConfigFrom(
+            __DIR__."/../../config/fields/configurations/$field.php", "fields.configurations.$field",
+            );
+        }
 
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/types.php', 'types',
+            __DIR__.'/../../config/rules/configurations/auto_generate.php', 'rules.configurations.auto_generate',
         );
 
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/fields.php', 'fields',
-        );
+        foreach (static::$types as $type) {
+            $this->mergeConfigFrom(
+            __DIR__."/../../config/types/configurations/$type.php", "types.configurations.$type",
+            );
+        }
     }
 
     /**
@@ -59,7 +78,7 @@ class UuidProvider extends ServiceProvider
     protected function addMigrationFields()
     {
         $uuidType = Types::get('uuid')->getDefaultMigrationType();
-        $primaryType = Types::get('primaryUuid')->getDefaultMigrationType();
+        $primaryType = Types::get('primary_uuid')->getDefaultMigrationType();
 
         // For all grammars, the uuid is already a binary or a specific uuid type.
         $handler = GrammarTypes::getHandler(Grammar::class);
