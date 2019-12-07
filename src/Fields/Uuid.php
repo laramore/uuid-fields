@@ -10,12 +10,11 @@
 
 namespace Laramore\Fields;
 
-use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
-use Laramore\Eloquent\ModelEvent;
-use Laramore\Elements\Type;
-use Rules, Types;
+use Laramore\Facades\{
+    Rules, Types
+};
 
 class Uuid extends Field
 {
@@ -61,11 +60,7 @@ class Uuid extends Field
             try {
                 return UuidGenerator::fromString($value);
             } catch (InvalidUuidStringException $e) {
-                try {
-                    return UuidGenerator::fromBytes($value);
-                } catch (InvalidUuidStringException $e) {
-                    // Just throw.
-                }
+                return UuidGenerator::fromBytes($value);
             }
         }
 
@@ -110,6 +105,21 @@ class Uuid extends Field
      */
     public function getDefault()
     {
-        return ($this->default ?? $this->generate());
+        if ($this->hasRule(Rules::autoGenerate())) {
+            return $this->generate();
+        }
+
+        return $this->default;
+    }
+
+    public function getMigrationPropertyKeys(): array
+    {
+        $keys = $this->getType()->getMigrationPropertyKeys();
+
+        if ($this->hasRule(Rules::autoGenerate()) && !\is_null($index = \array_search('default', $keys))) {
+            unset($keys[$index]);
+        }
+
+        return $keys;
     }
 }

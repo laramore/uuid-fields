@@ -18,7 +18,7 @@ return [
             ],
             'default_migration_type' => 'binaryUuid',
             'migration_type' => 'binaryUuid',
-            'migration_properties' => [
+            'migration_property_keys' => [
                 'nullable', 'default',
             ],
         ],
@@ -28,7 +28,7 @@ return [
             ],
             'default_migration_type' => 'primaryUuid',
             'migration_type' => 'primaryUuid',
-            'migration_properties' => [
+            'migration_property_keys' => [
                 'nullable', 'default',
             ],
         ],
@@ -36,7 +36,7 @@ return [
             'default_rules' => [
                 'visible', 'fillable', 'required',
             ],
-            'migration_properties' => [
+            'migration_property_keys' => [
                 'nullable', 'default',
             ],
         ],
