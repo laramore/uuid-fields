@@ -22,7 +22,7 @@ return [
                 'nullable', 'default',
             ],
         ],
-        'primaryUuid' => [
+        'primary_uuid' => [
             'default_rules' => [
                 'visible', 'required', 'auto_generate',
             ],
@@ -32,7 +32,7 @@ return [
                 'nullable', 'default',
             ],
         ],
-        'foreignUuid' => [
+        'foreign_uuid' => [
             'default_rules' => [
                 'visible', 'fillable', 'required',
             ],

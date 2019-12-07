@@ -33,19 +33,19 @@ return [
     */
 
     'configurations' => [
-        Laramore\Fields\Uuid::class => [
+        'uuid' => [
             'type' => 'uuid',
             'proxies' => \array_merge($commonProxies, [
                 'generate' => [],
             ]),
         ],
-        Laramore\Fields\PrimaryUuid::class => [
+        'primary_uuid' => [
             'type' => 'primary_uuid',
             'proxies' => \array_merge($commonProxies, [
                 'generate' => [],
             ]),
         ],
-        Laramore\Fields\ForeignUuid::class => [
+        'foreign_uuid' => [
             'type' => 'foreign_uuid',
             'fields' => [
                 'id' => [
