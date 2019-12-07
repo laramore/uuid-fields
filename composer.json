@@ -2,26 +2,35 @@
     "name": "laramore/uuid-field",
     "description": "Add an UUID field for Laramore",
     "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Laramore\\": "src/"
+    "license": "MIT",
+    "config": {
+        "platform": {
+            "php": "7.0.8"
         }
     },
     "require": {
+        "php": ">=7.0.8",
         "ramsey/uuid": ">=3.8",
         "laramore/laramore": "^0.5",
         "laramore/grammar-types": "^0.1.0"
     },
-    "conflict": {
-        "laravel/framework": "< 5.6"
+    "authors": [{
+        "name": "NastuzziSamy",
+        "email": "samy@nastuzzi.fr"
+    }],
+    "require-dev": {
+        "phpmd/phpmd": ">=2.7",
+        "squizlabs/php_codesniffer": ">=3.5",
+        "phpstan/phpstan": ">=0.9.2",
+        "phpunit/phpunit": ">=6.5"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "NastuzziSamy",
-            "email": "samy@nastuzzi.fr"
-        }
-    ],
+    "suggest": {
+        "laramore/migrations": "Generate automatically all your migrations"
+    },
+    "conflict": {
+        "laravel/framework": "< 5.6",
+        "laramore/migrations": "< 0.3.1"
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -44,14 +53,5 @@
             "@composer test:lint",
             "@composer test:unit"
         ]
-    },
-    "require-dev": {
-        "phpmd/phpmd": ">=2.7",
-        "squizlabs/php_codesniffer": ">=3.5",
-        "phpstan/phpstan": ">=0.9.2",
-        "phpunit/phpunit": ">=6.5"
-    },
-    "suggest": {
-        "laramore/migrations": "Generate automatically all your migrations"
     }
 }
