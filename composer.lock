@@ -324,16 +324,16 @@
         },
         {
             "name": "laramore/base",
-            "version": "v0.2.5",
+            "version": "v0.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laramore/base.git",
-                "reference": "6375473d2e4d3c2e0e2c3d5b4c9d4bae08b690a3"
+                "reference": "84e4298f1ac49ded2a57e23eb2478cdb17ed4341"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laramore/base/zipball/6375473d2e4d3c2e0e2c3d5b4c9d4bae08b690a3",
-                "reference": "6375473d2e4d3c2e0e2c3d5b4c9d4bae08b690a3",
+                "url": "https://api.github.com/repos/laramore/base/zipball/84e4298f1ac49ded2a57e23eb2478cdb17ed4341",
+                "reference": "84e4298f1ac49ded2a57e23eb2478cdb17ed4341",
                 "shasum": ""
             },
             "require": {
@@ -377,20 +377,20 @@
                 "owned",
                 "unlock"
             ],
-            "time": "2019-12-05T23:35:50+00:00"
+            "time": "2019-12-11T14:20:56+00:00"
         },
         {
             "name": "laramore/fields",
-            "version": "v0.1.6",
+            "version": "v0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laramore/fields.git",
-                "reference": "649c0c079f70cc9a57874fbd41ed1110491e1064"
+                "reference": "99731f736413c73f181d104f8172de22c33ad331"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laramore/fields/zipball/649c0c079f70cc9a57874fbd41ed1110491e1064",
-                "reference": "649c0c079f70cc9a57874fbd41ed1110491e1064",
+                "url": "https://api.github.com/repos/laramore/fields/zipball/99731f736413c73f181d104f8172de22c33ad331",
+                "reference": "99731f736413c73f181d104f8172de22c33ad331",
                 "shasum": ""
             },
             "require": {
@@ -450,7 +450,7 @@
                 "table",
                 "validations"
             ],
-            "time": "2019-12-06T00:54:51+00:00"
+            "time": "2019-12-09T16:44:03+00:00"
         },
         {
             "name": "laramore/grammar-types",
@@ -591,16 +591,16 @@
         },
         {
             "name": "laramore/types",
-            "version": "v0.1.4",
+            "version": "v0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laramore/types.git",
-                "reference": "b8310d6b36579405c573e6a9fc51e941041f0d2a"
+                "reference": "4594c3b8907352b87d3947ce4e685ab779fc1a83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laramore/types/zipball/b8310d6b36579405c573e6a9fc51e941041f0d2a",
-                "reference": "b8310d6b36579405c573e6a9fc51e941041f0d2a",
+                "url": "https://api.github.com/repos/laramore/types/zipball/4594c3b8907352b87d3947ce4e685ab779fc1a83",
+                "reference": "4594c3b8907352b87d3947ce4e685ab779fc1a83",
                 "shasum": ""
             },
             "require": {
@@ -659,7 +659,7 @@
                 "model",
                 "types"
             ],
-            "time": "2019-12-06T00:45:42+00:00"
+            "time": "2019-12-11T14:59:37+00:00"
         },
         {
             "name": "nastuzzi-samy/reflection-namespace",

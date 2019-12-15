@@ -16,7 +16,7 @@ use Laramore\Facades\{
     Rules, Types
 };
 
-class Uuid extends Field
+class Uuid extends AttributeField
 {
     /**
      * Dry the value in a simple format.
@@ -26,9 +26,7 @@ class Uuid extends Field
      */
     public function dry($value)
     {
-        if (!($value instanceof UuidGenerator)) {
-            $value = $this->getOwner()->transformFieldAttribute($this, $value);
-        }
+        $value = $this->getOwner()->transformFieldAttribute($this, $value);
 
         return $value->getBytes();
     }
@@ -41,9 +39,7 @@ class Uuid extends Field
      */
     public function cast($value)
     {
-        if (!($value instanceof UuidGenerator)) {
-            $value = $this->getOwner()->transformFieldAttribute($this, $value);
-        }
+        $value = $this->getOwner()->transformFieldAttribute($this, $value);
 
         return $value;
     }
@@ -56,6 +52,10 @@ class Uuid extends Field
      */
     public function transform($value)
     {
+        if (($value instanceof UuidGenerator)) {
+            return $value;
+        }
+
         if (\is_string($value)) {
             try {
                 return UuidGenerator::fromString($value);
