@@ -15,10 +15,10 @@ return [
         'auto_generate' => [
             'description' => 'Auto generate the value',
             'adds' => [
-                'required', 'not_nullable',
+                'not_nullable',
             ],
             'removes' => [
-                'nullable',
+                'nullable', 'fillable',
             ],
         ],
     ],

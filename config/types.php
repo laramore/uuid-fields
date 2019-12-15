@@ -14,7 +14,7 @@ return [
     'configurations' => [
         'uuid' => [
             'default_rules' => [
-                'visible', 'fillable', 'required',
+                'visible', 'fillable',
             ],
             'default_migration_type' => 'binaryUuid',
             'migration_type' => 'binaryUuid',
@@ -24,7 +24,7 @@ return [
         ],
         'primary_uuid' => [
             'default_rules' => [
-                'visible', 'required', 'auto_generate',
+                'visible', 'auto_generate',
             ],
             'default_migration_type' => 'primaryUuid',
             'migration_type' => 'primaryUuid',
@@ -34,7 +34,7 @@ return [
         ],
         'foreign_uuid' => [
             'default_rules' => [
-                'visible', 'fillable', 'required',
+                'visible', 'fillable',
             ],
             'migration_property_keys' => [
                 'nullable', 'default',
