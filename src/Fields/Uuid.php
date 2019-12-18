@@ -12,9 +12,7 @@ namespace Laramore\Fields;
 
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
-use Laramore\Facades\{
-    Rules, Types
-};
+use Laramore\Facades\Rules;
 
 class Uuid extends AttributeField
 {
@@ -112,6 +110,12 @@ class Uuid extends AttributeField
         return $this->default;
     }
 
+    /**
+     * As this package can be used with laramore/migrations, 
+     * it is required not to generate a default field if the value is auto generated.
+     *
+     * @return array
+     */
     public function getMigrationPropertyKeys(): array
     {
         $keys = $this->getType()->getMigrationPropertyKeys();
