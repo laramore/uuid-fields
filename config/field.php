@@ -7,17 +7,17 @@ $commonProxies = [
     ],
     'where' => [
         'requirements' => ['instance'],
-        'targets' => [Laramore\Proxies\ProxyHandler::BUILDER_TYPE],
+        'targets' => [Laramore\Fields\Proxy\ProxyHandler::BUILDER_TYPE],
     ],
     'whereNull' => [
         'name_template' => 'doesntHave^{fieldname}',
         'requirements' => ['instance'],
-        'targets' => [Laramore\Proxies\ProxyHandler::BUILDER_TYPE],
+        'targets' => [Laramore\Fields\Proxy\ProxyHandler::BUILDER_TYPE],
     ],
     'whereNotNull' => [
         'name_template' => 'has^{fieldname}',
         'requirements' => ['instance'],
-        'targets' => [Laramore\Proxies\ProxyHandler::BUILDER_TYPE],
+        'targets' => [Laramore\Fields\Proxy\ProxyHandler::BUILDER_TYPE],
     ],
 ];
 

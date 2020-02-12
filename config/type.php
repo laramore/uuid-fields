@@ -13,7 +13,7 @@ return [
 
     'configurations' => [
         'uuid' => [
-            'default_rules' => [
+            'default_options' => [
                 'visible', 'fillable',
             ],
             'default_migration_type' => 'binaryUuid',
@@ -23,7 +23,7 @@ return [
             ],
         ],
         'primary_uuid' => [
-            'default_rules' => [
+            'default_options' => [
                 'visible', 'auto_generate',
             ],
             'default_migration_type' => 'primaryUuid',
@@ -33,7 +33,7 @@ return [
             ],
         ],
         'foreign_uuid' => [
-            'default_rules' => [
+            'default_options' => [
                 'visible', 'fillable',
             ],
             'migration_property_keys' => [

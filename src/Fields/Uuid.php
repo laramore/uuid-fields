@@ -12,7 +12,7 @@ namespace Laramore\Fields;
 
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
-use Laramore\Facades\Rules;
+use Laramore\Facades\Option;
 
 class Uuid extends AttributeField
 {
@@ -93,17 +93,17 @@ class Uuid extends AttributeField
      */
     public function hasDefault(): bool
     {
-        return (isset($this->default) || $this->hasRule(Rules::autoGenerate()));
+        return (isset($this->default) || $this->hasOption(Option::autoGenerate()));
     }
 
     /**
      * Return the default value.
      *
-     * @return void
+     * @return mixed
      */
     public function getDefault()
     {
-        if ($this->hasRule(Rules::autoGenerate())) {
+        if ($this->hasOption(Option::autoGenerate())) {
             return $this->generate();
         }
 
@@ -111,7 +111,7 @@ class Uuid extends AttributeField
     }
 
     /**
-     * As this package can be used with laramore/migrations, 
+     * As this package can be used with laramore/migrations,
      * it is required not to generate a default field if the value is auto generated.
      *
      * @return array
@@ -120,7 +120,7 @@ class Uuid extends AttributeField
     {
         $keys = $this->getType()->getMigrationPropertyKeys();
 
-        if ($this->hasRule(Rules::autoGenerate()) && !\is_null($index = \array_search('default', $keys))) {
+        if ($this->hasOption(Option::autoGenerate()) && !\is_null($index = \array_search('default', $keys))) {
             unset($keys[$index]);
         }
 

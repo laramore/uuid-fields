@@ -16,7 +16,7 @@ use Illuminate\Database\Schema\Grammars\{
 };
 use Laramore\Traits\Provider\MergesConfig;
 use Laramore\Facades\{
-    Types, GrammarTypes
+    Type, GrammarType
 };
 
 class UuidProvider extends ServiceProvider
@@ -24,22 +24,22 @@ class UuidProvider extends ServiceProvider
     use MergesConfig;
 
     /**
-     * Prepare all configs and default rules, types and fields.
+     * Prepare all configs and default options, types and fields.
      *
      * @return void
      */
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__."/../../config/fields.php", "fields",
+            __DIR__."/../../config/field.php", "field",
         );
 
         $this->mergeConfigFrom(
-            __DIR__."/../../config/rules.php", "rules",
+            __DIR__."/../../config/option.php", "option",
         );
 
         $this->mergeConfigFrom(
-            __DIR__."/../../config/types.php", "types",
+            __DIR__."/../../config/type.php", "type",
         );
     }
 
@@ -60,17 +60,17 @@ class UuidProvider extends ServiceProvider
      */
     protected function addMigrationFields()
     {
-        $uuidType = Types::get('uuid')->getDefaultMigrationType();
-        $primaryType = Types::get('primary_uuid')->getDefaultMigrationType();
+        $uuidType = Type::get('uuid')->getDefaultMigrationType();
+        $primaryType = Type::get('primary_uuid')->getDefaultMigrationType();
 
         // For all grammars, the uuid is already a binary or a specific uuid type.
-        $handler = GrammarTypes::getHandler(Grammar::class);
+        $handler = GrammarType::getHandler(Grammar::class);
         $handler->create($uuidType, $uuidType, function ($column) {
             return $this->typeUuid($column);
         });
 
         // For all grammars, the uuid is already a binary or a specific uuid type.
-        $handler = GrammarTypes::getHandler(Grammar::class);
+        $handler = GrammarType::getHandler(Grammar::class);
         $handler->create($primaryType, $primaryType, function ($column) {
             return $this->typeUuid($column);
         });
@@ -79,7 +79,7 @@ class UuidProvider extends ServiceProvider
         // So, in order to optimize it, we create a new type: a binary one.
         // It is programatically converted by the Uuid field:
         // Binary (for the database) <=> String (for all PHP interactions).
-        $handler = GrammarTypes::getHandler(MySqlGrammar::class);
+        $handler = GrammarType::getHandler(MySqlGrammar::class);
         $handler->create($uuidType, $uuidType, function ($column) {
             return 'binary(16)';
         });
