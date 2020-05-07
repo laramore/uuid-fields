@@ -10,6 +10,6 @@
 
 namespace Laramore\Fields;
 
-class ForeignUuid extends Foreign
+class ManyToOneUuid extends ManyToOne
 {
 }

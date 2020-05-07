@@ -13,8 +13,9 @@ namespace Laramore\Fields;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Laramore\Facades\Option;
+use Laramore\Contracts\Eloquent\LaramoreModel;
 
-class Uuid extends AttributeField
+class Uuid extends BaseAttribute
 {
     /**
      * Dry the value in a simple format.
@@ -24,9 +25,7 @@ class Uuid extends AttributeField
      */
     public function dry($value)
     {
-        $value = $this->getOwner()->transformFieldAttribute($this, $value);
-
-        return $value->getBytes();
+        return $this->transform($value)->getBytes();
     }
 
     /**
@@ -37,9 +36,7 @@ class Uuid extends AttributeField
      */
     public function cast($value)
     {
-        $value = $this->getOwner()->transformFieldAttribute($this, $value);
-
-        return $value;
+        return $this->transform($value);
     }
 
     /**
@@ -57,7 +54,7 @@ class Uuid extends AttributeField
         if (\is_string($value)) {
             try {
                 return UuidGenerator::fromString($value);
-            } catch (InvalidUuidStringException $e) {
+            } catch (InvalidUuidStringException $_) {
                 return UuidGenerator::fromBytes($value);
             }
         }
@@ -83,47 +80,43 @@ class Uuid extends AttributeField
      */
     public function generate(): string
     {
-        return $this->getOwner()->castFieldAttribute($this, UuidGenerator::uuid4());
+        return $this->cast(UuidGenerator::uuid4());
     }
 
     /**
-     * Indicate if this has a default value.
+     * Reet the value for the field.
      *
-     * @return boolean
-     */
-    public function hasDefault(): bool
-    {
-        return (isset($this->default) || $this->hasOption(Option::autoGenerate()));
-    }
-
-    /**
-     * Return the default value.
-     *
+     * @param  LaramoreModel $model
      * @return mixed
      */
-    public function getDefault()
+    public function reset(LaramoreModel $model)
     {
-        if ($this->hasOption(Option::autoGenerate())) {
-            return $this->generate();
+        if ($this->hasDefault()) {
+            $model->setAttributeValue($this->getNative(), $value = $this->getDefault());
+
+            return $value;
         }
 
-        return $this->default;
+        if ($this->hasOption(Option::autoGenerate())) {
+            $model->setAttributeValue($this->getNative(), $value = $this->generate());
+
+            return $value;
+        }
+
+        $model->unsetAttribute($this->getNative());
     }
 
     /**
-     * As this package can be used with laramore/migrations,
-     * it is required not to generate a default field if the value is auto generated.
+     * Check all properties and options before locking the field.
      *
-     * @return array
+     * @return void
      */
-    public function getMigrationPropertyKeys(): array
+    public function checkOptions()
     {
-        $keys = $this->getType()->getMigrationPropertyKeys();
+        parent::checkOptions();
 
-        if ($this->hasOption(Option::autoGenerate()) && !\is_null($index = \array_search('default', $keys))) {
-            unset($keys[$index]);
+        if ($this->hasDefault() && $this->hasOption(Option::autoGenerate())) {
+            throw new \LogicException("The field `{$this->getName()}` cannot have a default value and be auto generated");
         }
-
-        return $keys;
     }
 }

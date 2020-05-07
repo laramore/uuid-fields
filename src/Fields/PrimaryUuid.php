@@ -10,8 +10,8 @@
 
 namespace Laramore\Fields;
 
-use Laramore\Interfaces\IsAPrimaryField;
+use Laramore\Contracts\Field\Constraint\PrimaryField;
 
-class PrimaryUuid extends Uuid implements IsAPrimaryField
+class PrimaryUuid extends Uuid implements PrimaryField
 {
 }
