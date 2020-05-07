@@ -11,8 +11,8 @@
     "require": {
         "php": ">=7.1.3",
         "ramsey/uuid": ">=3.8",
-        "laramore/laramore": "^0.9.0",
-        "laramore/grammar-types": "^0.3.0"
+        "laramore/laramore": "^0.11.1",
+        "laramore/grammar-types": "^0.4.1"
     },
     "authors": [{
         "name": "NastuzziSamy",

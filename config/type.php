@@ -32,14 +32,6 @@ return [
                 'nullable', 'default',
             ],
         ],
-        'foreign_uuid' => [
-            'default_options' => [
-                'visible', 'fillable',
-            ],
-            'migration_property_keys' => [
-                'nullable', 'default',
-            ],
-        ],
     ],
 
 ];
