@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd379ad1c4b291162073a6623d18a9ec",
+    "content-hash": "8b9a0ca44ef44fe51f9c54d6f53a59b6",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -492,16 +492,16 @@
         },
         {
             "name": "laramore/grammar-types",
-            "version": "v0.4.1",
+            "version": "v0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laramore/grammar-types.git",
-                "reference": "fad70bdff7a86c52a9652ee1a6fd50a2dfe70625"
+                "reference": "a7f9aede6d30f05ef7c48347a1d1b0f25fae5f50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laramore/grammar-types/zipball/fad70bdff7a86c52a9652ee1a6fd50a2dfe70625",
-                "reference": "fad70bdff7a86c52a9652ee1a6fd50a2dfe70625",
+                "url": "https://api.github.com/repos/laramore/grammar-types/zipball/a7f9aede6d30f05ef7c48347a1d1b0f25fae5f50",
+                "reference": "a7f9aede6d30f05ef7c48347a1d1b0f25fae5f50",
                 "shasum": ""
             },
             "require": {
@@ -559,7 +559,7 @@
                 "model",
                 "types"
             ],
-            "time": "2020-05-07T15:13:07+00:00"
+            "time": "2020-05-07T18:19:58+00:00"
         },
         {
             "name": "laramore/laramore",
