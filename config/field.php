@@ -14,16 +14,20 @@ return [
     'configurations' => [
         'uuid' => [
             'type' => 'uuid',
-            'proxies' => [
-                'generate' => [
-
-                ],
+            'proxy' => [
+                'configurations' => [
+                    'generate' => [
+    
+                    ],
+                ]
             ],
         ],
         'primary_uuid' => [
             'type' => 'primary_uuid',
-            'proxies' => [
-                'generate' => [],
+            'proxy' => [
+                'configurations' => [
+                    'generate' => [],
+                ],
             ],
         ],
         'many_to_one_uuid' => [
@@ -37,7 +41,11 @@ return [
                 'reversed' => '+{modelname}',
                 'self_reversed' => 'reversed_+{name}',
             ],
-            'proxies' => [],
+            'proxy' => [
+                'configurations' => [
+            
+                ],
+            ],
         ],
     ],
     
