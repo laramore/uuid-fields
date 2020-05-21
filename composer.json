@@ -11,8 +11,8 @@
     "require": {
         "php": ">=7.1.3",
         "ramsey/uuid": ">=3.8",
-        "laramore/laramore": "^0.12.0",
-        "laramore/grammar-types": "^0.4.2"
+        "laramore/laramore": "~0.14",
+        "laramore/grammar-types": "~0.4"
     },
     "authors": [
         {
@@ -32,7 +32,8 @@
         "phpunit/phpunit": ">=6.5"
     },
     "suggest": {
-        "laramore/migrations": "Generate automatically all your migrations"
+        "laramore/migrations": "Generate automatically all your migrations",
+        "laramore/factories": "Generate automatically all your factories"
     },
     "conflict": {
         "laravel/framework": "< 5.6",
