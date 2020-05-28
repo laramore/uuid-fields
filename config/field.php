@@ -1,5 +1,7 @@
 <?php
 
+use Laramore\Fields\Uuid;
+
 return [
 
     /*
@@ -14,6 +16,8 @@ return [
     'configurations' => [
         'uuid' => [
             'type' => 'uuid',
+            'version' => Uuid::VERSION_4,
+            'generation' => [],
             'proxy' => [
                 'configurations' => [
                     'generate' => [

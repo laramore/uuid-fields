@@ -18,6 +18,41 @@ use Laramore\Contracts\Eloquent\LaramoreModel;
 class Uuid extends BaseAttribute
 {
     /**
+     * Version used for generation.
+     *
+     * @var integer
+     */
+    protected $version;
+
+    /**
+     * Version 1 (time-based) UUID object constant identifier.
+     *
+     * @var integer
+     */
+    const VERSION_1 = UuidGenerator::UUID_TYPE_TIME;
+
+    /**
+     * Version 3 (name-based and hashed with MD5) UUID object constant identifier.
+     *
+     * @var integer
+     */
+    const VERSION_3 = UuidGenerator::UUID_TYPE_HASH_MD5;
+
+    /**
+     * Version 4 (random) UUID object constant identifier.
+     *
+     * @var integer
+     */
+    const VERSION_4 = UuidGenerator::UUID_TYPE_RANDOM;
+
+    /**
+     * Version 5 (name-based and hashed with SHA1) UUID object constant identifier.
+     *
+     * @var integer
+     */
+    const VERSION_5 = UuidGenerator::UUID_TYPE_HASH_SHA1;
+
+    /**
      * Dry the value in a simple format.
      *
      * @param  mixed $value
@@ -25,6 +60,10 @@ class Uuid extends BaseAttribute
      */
     public function dry($value)
     {
+        if (\is_null($value)) {
+            return $value;
+        }
+
         return $this->transform($value)->getBytes();
     }
 
@@ -47,7 +86,7 @@ class Uuid extends BaseAttribute
      */
     public function transform($value)
     {
-        if (($value instanceof UuidGenerator)) {
+        if (\is_null($value) || ($value instanceof UuidGenerator)) {
             return $value;
         }
 
@@ -80,7 +119,7 @@ class Uuid extends BaseAttribute
      */
     public function generate(): string
     {
-        return $this->cast(UuidGenerator::uuid4());
+        return $this->cast(UuidGenerator::{'uuid'.$this->version}(...$this->getConfig('generation')));
     }
 
     /**
