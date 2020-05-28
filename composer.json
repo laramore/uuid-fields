@@ -1,6 +1,6 @@
 {
-    "name": "laramore/uuid-field",
-    "description": "Add an UUID field for Laramore",
+    "name": "laramore/uuid-fields",
+    "description": "Add UUID fields for Laramore",
     "type": "library",
     "license": "MIT",
     "config": {
