@@ -28,6 +28,8 @@ return [
         ],
         'primary_uuid' => [
             'type' => 'primary_uuid',
+            'version' => Uuid::VERSION_4,
+            'generation' => [],
             'proxy' => [
                 'configurations' => [
                     'generate' => [],
@@ -36,6 +38,8 @@ return [
         ],
         'many_to_one_uuid' => [
             'type' => 'relation',
+            'version' => Uuid::VERSION_4,
+            'generation' => [],
             'fields' => [
                 'id' => Laramore\Fields\Uuid::class,
                 'reversed' => Laramore\Fields\Reversed\HasMany::class,
