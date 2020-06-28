@@ -60,11 +60,34 @@ class Uuid extends BaseAttribute
      */
     public function dry($value)
     {
+        if ($value instanceof UuidGenerator) {
+            return $value->getBytes();
+        }
+
+        return $value;
+    }
+
+    /**
+     * Hydrate the value in the correct format.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
+    public function hydrate($value)
+    {
         if (\is_null($value)) {
             return $value;
         }
 
-        return $this->transform($value)->getBytes();
+        if (\is_string($value)) {
+            try {
+                return UuidGenerator::fromString($value);
+            } catch (InvalidUuidStringException $_) {
+                return UuidGenerator::fromBytes($value);
+            }
+        }
+
+        throw new \Exception('The given value is not an uuid');
     }
 
     /**
@@ -74,17 +97,6 @@ class Uuid extends BaseAttribute
      * @return mixed
      */
     public function cast($value)
-    {
-        return $this->transform($value);
-    }
-
-    /**
-     * Transform the value to be used as a correct format.
-     *
-     * @param  mixed $value
-     * @return mixed
-     */
-    public function transform($value)
     {
         if (\is_null($value) || ($value instanceof UuidGenerator)) {
             return $value;
