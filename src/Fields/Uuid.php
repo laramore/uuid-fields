@@ -137,24 +137,20 @@ class Uuid extends BaseAttribute
     /**
      * Reet the value for the field.
      *
-     * @param  LaramoreModel $model
+     * @param LaramoreModel|array|\ArrayAccess $model
      * @return mixed
      */
-    public function reset(LaramoreModel $model)
+    public function reset($model)
     {
         if ($this->hasDefault()) {
-            $model->setAttributeValue($this->getNative(), $value = $this->getDefault());
-
-            return $value;
+            return $this->set($model, $this->getDefault());
         }
 
         if ($this->hasOption(Option::autoGenerate())) {
-            $model->setAttributeValue($this->getNative(), $value = $this->generate());
-
-            return $value;
+            return $this->set($model, $this->generate());
         }
 
-        $model->unsetAttribute($this->getNative());
+        return parent::reset($model);
     }
 
     /**
