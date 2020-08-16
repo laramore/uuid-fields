@@ -127,9 +127,9 @@ class Uuid extends BaseAttribute
     /**
      * Return a new generated uuid.
      *
-     * @return string
+     * @return \Ramsey\Uuid\Uuid
      */
-    public function generate(): string
+    public function generate(): \Ramsey\Uuid\Uuid
     {
         return $this->cast(UuidGenerator::{'uuid'.$this->version}(...$this->getConfig('generation')));
     }
