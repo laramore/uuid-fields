@@ -1,6 +1,6 @@
 <?php
 
-use Laramore\Fields\Uuid;
+namespace Laramore\Fields;
 
 return [
 
@@ -14,7 +14,7 @@ return [
     */
 
     'configurations' => [
-        'uuid' => [
+        Uuid::class => [
             'type' => 'uuid',
             'version' => Uuid::VERSION_4,
             'generation' => [],
@@ -26,7 +26,7 @@ return [
                 ]
             ],
         ],
-        'primary_uuid' => [
+        PrimaryUuid::class => [
             'type' => 'primary_uuid',
             'version' => Uuid::VERSION_4,
             'generation' => [],
@@ -36,13 +36,13 @@ return [
                 ],
             ],
         ],
-        'many_to_one_uuid' => [
+        ManyToOneUuid::class => [
             'type' => 'relation',
             'version' => Uuid::VERSION_4,
             'generation' => [],
             'fields' => [
-                'id' => Laramore\Fields\Uuid::class,
-                'reversed' => Laramore\Fields\Reversed\HasMany::class,
+                'id' => Uuid::class,
+                'reversed' => Reversed\HasMany::class,
             ],
             'templates' => [
                 'id' => '${name}_${identifier}',
