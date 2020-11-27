@@ -11,6 +11,7 @@
 namespace Laramore\Fields;
 
 use Ramsey\Uuid\Uuid as UuidGenerator;
+use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Laramore\Facades\Option;
 use Laramore\Contracts\Eloquent\LaramoreModel;
@@ -79,7 +80,7 @@ class Uuid extends BaseAttribute
             return $value;
         }
 
-        if (\is_string($value)) {
+        if (\is_string($value) || $value instanceof LazyUuidFromString) {
             try {
                 return UuidGenerator::fromString($value);
             } catch (InvalidUuidStringException $_) {
@@ -102,7 +103,7 @@ class Uuid extends BaseAttribute
             return $value;
         }
 
-        if (\is_string($value)) {
+        if (\is_string($value) || $value instanceof LazyUuidFromString) {
             try {
                 return UuidGenerator::fromString($value);
             } catch (InvalidUuidStringException $_) {
@@ -127,9 +128,9 @@ class Uuid extends BaseAttribute
     /**
      * Return a new generated uuid.
      *
-     * @return \Ramsey\Uuid\Uuid
+     * @return \Ramsey\Uuid\Lazy\LazyUuidFromString
      */
-    public function generate(): \Ramsey\Uuid\Uuid
+    public function generate(): LazyUuidFromString
     {
         return $this->cast(UuidGenerator::{'uuid'.$this->version}(...$this->getConfig('generation')));
     }
