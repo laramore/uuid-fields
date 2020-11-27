@@ -16,8 +16,7 @@ return [
             'default_options' => [
                 'visible', 'fillable',
             ],
-            'default_migration_type' => 'binaryUuid',
-            'migration_name' => 'binaryUuid',
+            'migration_name' => 'uuid',
             'migration_property_keys' => [
                 'nullable', 'default',
             ],
@@ -26,8 +25,7 @@ return [
             'default_options' => [
                 'visible', 'auto_generate',
             ],
-            'default_migration_type' => 'primaryUuid',
-            'migration_name' => 'primaryUuid',
+            'migration_name' => 'uuid',
             'factory_name' => null,
             'migration_property_keys' => [
                 'nullable', 'default',
