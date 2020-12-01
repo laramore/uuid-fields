@@ -30,7 +30,7 @@ return [
         ],
         PrimaryUuid::class => [
             'options' => [
-                'visible', 'auto_generate',
+                'visible',
             ],
             'version' => Uuid::VERSION_4,
             'factory_parameters' => [],
