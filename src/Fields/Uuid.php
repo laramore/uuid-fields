@@ -13,8 +13,6 @@ namespace Laramore\Fields;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
-use Laramore\Facades\Option;
-use Laramore\Contracts\Eloquent\LaramoreModel;
 
 class Uuid extends BaseAttribute
 {
@@ -132,39 +130,6 @@ class Uuid extends BaseAttribute
      */
     public function generate(): LazyUuidFromString
     {
-        return $this->cast(UuidGenerator::{'uuid'.$this->version}(...$this->getConfig('generation')));
-    }
-
-    /**
-     * Reet the value for the field.
-     *
-     * @param LaramoreModel|array|\ArrayAccess $model
-     * @return mixed
-     */
-    public function reset($model)
-    {
-        if ($this->hasDefault()) {
-            return $this->set($model, $this->getDefault());
-        }
-
-        if ($this->hasOption(Option::autoGenerate())) {
-            return $this->set($model, $this->generate());
-        }
-
-        return parent::reset($model);
-    }
-
-    /**
-     * Check all properties and options before locking the field.
-     *
-     * @return void
-     */
-    public function checkOptions()
-    {
-        parent::checkOptions();
-
-        if ($this->hasDefault() && $this->hasOption(Option::autoGenerate())) {
-            throw new \LogicException("The field `{$this->getName()}` cannot have a default value and be auto generated");
-        }
+        return $this->cast(UuidGenerator::{'uuid'.$this->version}(...($this->factoryParameters ?: [])));
     }
 }

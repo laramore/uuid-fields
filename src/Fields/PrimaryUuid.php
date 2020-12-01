@@ -34,4 +34,19 @@ class PrimaryUuid extends Uuid implements PrimaryField
     {
         return parent::getConstraintHandler();
     }
+
+    /**
+     * Reet the value for the field.
+     *
+     * @param LaramoreModel|array|\ArrayAccess $model
+     * @return mixed
+     */
+    public function reset($model)
+    {
+        if ($this->hasDefault()) {
+            return $this->set($model, $this->getDefault());
+        }
+
+        return $this->set($model, $this->generate());
+    }
 }
