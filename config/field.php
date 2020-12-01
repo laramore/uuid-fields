@@ -15,9 +15,11 @@ return [
 
     'configurations' => [
         Uuid::class => [
-            'type' => 'uuid',
             'version' => Uuid::VERSION_4,
-            'generation' => [],
+            'factory_parameters' => [],
+            'options' => [
+                'visible', 'fillable', 'required',
+            ],
             'proxy' => [
                 'configurations' => [
                     'generate' => [
@@ -27,9 +29,11 @@ return [
             ],
         ],
         PrimaryUuid::class => [
-            'type' => 'primary_uuid',
+            'options' => [
+                'visible', 'auto_generate',
+            ],
             'version' => Uuid::VERSION_4,
-            'generation' => [],
+            'factory_parameters' => [],
             'proxy' => [
                 'configurations' => [
                     'generate' => [],
@@ -37,9 +41,11 @@ return [
             ],
         ],
         ManyToOneUuid::class => [
-            'type' => 'relation',
             'version' => Uuid::VERSION_4,
-            'generation' => [],
+            'factory_parameters' => [],
+            'options' => [
+                'visible', 'fillable', 'required',
+            ],
             'fields' => [
                 'id' => Uuid::class,
                 'reversed' => Reversed\HasMany::class,
