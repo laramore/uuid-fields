@@ -77,4 +77,18 @@ return [
             'self_reversed_pivot' => 'reversed_+{modelname}',
         ],
     ],
+    OneToOne::class => [
+        'options' => [
+            'visible', 'fillable', 'required',
+        ],
+        'fields' => [
+            'id' => UniqueId::class,
+            'reversed' => Reversed\HasOne::class,
+        ],
+        'templates' => [
+            'id' => '${name}_${identifier}',
+            'reversed' => '${modelname}',
+            'self_reversed' => 'reversed_+{name}',
+        ],
+    ],
 ];

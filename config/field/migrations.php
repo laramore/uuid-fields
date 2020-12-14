@@ -25,6 +25,14 @@ return [
             'nullable', 'default',
         ],
     ],
-    ManyToOneUuid::class => null,
+    ManyToOneUuid::class => [
+        
+    ],
+    ManyToManyUuid::class => [
+        
+    ],
+    OneToOneUuid::class => [
+        
+    ],
     
 ];

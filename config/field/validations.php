@@ -16,7 +16,13 @@ return [
     Uuid::class => [
         
     ],
+    PrimaryUuid::class => [
+        
+    ],
     ManyToOneUuid::class => [
+
+    ],
+    ManyToManyUuid::class => [
 
     ],
     OneToOneUuid::class => [
