@@ -132,7 +132,7 @@ class Uuid extends BaseAttribute
     {
         return $this->cast(UuidGenerator::{'uuid'.$this->version}(...($this->factoryParameters ?: [])));
     }
-    
+
     /**
      * Define default value as auto generated.
      *
