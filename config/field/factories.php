@@ -22,7 +22,7 @@ return [
     ManyToOneUuid::class => [
         'formater' => 'relation',
     ],
-    ManyToMany::class => [
+    ManyToManyUuid::class => [
         'formater' => 'randomRelation',
         'parameters' => [
             'limit' => 2,
