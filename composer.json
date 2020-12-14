@@ -10,7 +10,7 @@
     },
     "require": {
         "php": "^7.3|^8.0",
-        "ramsey/uuid": ">=3.8",
+        "ramsey/uuid": "^4.1",
         "laramore/laramore": ">=0.23.3"
     },
     "authors": [
