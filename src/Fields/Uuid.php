@@ -10,9 +10,11 @@
 
 namespace Laramore\Fields;
 
+use Illuminate\Support\Arr;
 use Ramsey\Uuid\Uuid as UuidGenerator;
 use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Laramore\Exceptions\FieldException;
 
 class Uuid extends BaseAttribute
 {
@@ -29,6 +31,13 @@ class Uuid extends BaseAttribute
      * @var integer
      */
     const VERSION_1 = UuidGenerator::UUID_TYPE_TIME;
+
+    /**
+     * Version 2 (DCE Security) UUID
+     *
+     * @var integer
+     */
+    const VERSION_2 = UuidGenerator::UUID_TYPE_DCE_SECURITY;
 
     /**
      * Version 3 (name-based and hashed with MD5) UUID object constant identifier.
@@ -50,6 +59,13 @@ class Uuid extends BaseAttribute
      * @var integer
      */
     const VERSION_5 = UuidGenerator::UUID_TYPE_HASH_SHA1;
+
+    /**
+     * Version 6 (ordered-time) UUID
+     *
+     * @var integer
+     */
+    const VERSION_6 = UuidGenerator::UUID_TYPE_PEABODY;
 
     /**
      * Dry the value in a simple format.
@@ -80,13 +96,17 @@ class Uuid extends BaseAttribute
 
         if (\is_string($value) || $value instanceof LazyUuidFromString) {
             try {
-                return UuidGenerator::fromString($value);
-            } catch (InvalidUuidStringException $_) {
-                return UuidGenerator::fromBytes($value);
+                try {
+                    return UuidGenerator::fromString($value);
+                } catch (InvalidUuidStringException $_) {
+                    return UuidGenerator::fromBytes($value);
+                }
+            } catch (\Exception $e) {
+                throw new FieldException($this, $e->getMessage());
             }
         }
 
-        throw new \Exception('The given value is not an uuid');
+        throw new FieldException($this, 'The given value is not an uuid');
     }
 
     /**
@@ -103,13 +123,17 @@ class Uuid extends BaseAttribute
 
         if (\is_string($value) || $value instanceof LazyUuidFromString) {
             try {
-                return UuidGenerator::fromString($value);
-            } catch (InvalidUuidStringException $_) {
-                return UuidGenerator::fromBytes($value);
+                try {
+                    return UuidGenerator::fromString($value);
+                } catch (InvalidUuidStringException $_) {
+                    return UuidGenerator::fromBytes($value);
+                }
+            } catch (\Exception $e) {
+                throw new FieldException($this, $e->getMessage());
             }
         }
 
-        throw new \Exception('The given value is not an uuid');
+        throw new FieldException($this, 'The given value is not an uuid');
     }
 
     /**
@@ -120,7 +144,7 @@ class Uuid extends BaseAttribute
      */
     public function serialize($value)
     {
-        return (string) $value;
+        return is_null($value) ? null : (string) $value;
     }
 
     /**
@@ -130,7 +154,11 @@ class Uuid extends BaseAttribute
      */
     public function generate(): LazyUuidFromString
     {
-        return $this->cast(UuidGenerator::{'uuid'.$this->version}(...($this->factoryParameters ?: [])));
+        $possibleConfig = $this->getFactoryConfig();
+        $version = Arr::get($possibleConfig, 'formater', $this->version);
+        $parameters = Arr::get($possibleConfig, 'parameters', []);
+
+        return $this->cast(UuidGenerator::{'uuid'.$version}(...$parameters));
     }
 
     /**

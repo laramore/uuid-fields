@@ -1,6 +1,6 @@
 <?php
 
-namespace Laramore\Fields;
+namespace Laramore;
 
 return [
 
@@ -13,20 +13,20 @@ return [
     |
     */
 
-    Uuid::class => [
-        
-    ],
-    PrimaryUuid::class => [
-        
-    ],
-    ManyToOneUuid::class => [
+    Fields\Uuid::class => [
 
     ],
-    ManyToManyUuid::class => [
+    Fields\PrimaryUuid::class => [
 
     ],
-    OneToOneUuid::class => [
-
+    Fields\ManyToOneUuid::class => [
+        Validations\ArrayObject::class,
     ],
-    
+    Fields\ManyToManyUuid::class => [
+        Validations\ObjectList::class,
+    ],
+    Fields\OneToOneUuid::class => [
+        Validations\ArrayObject::class,
+    ],
+
 ];

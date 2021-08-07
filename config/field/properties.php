@@ -17,7 +17,7 @@ return [
         'version' => Uuid::VERSION_4,
         'factory_parameters' => [],
         'options' => [
-            'visible', 'fillable', 'required',
+            'select', 'visible', 'fillable', 'required',
         ],
         'proxy' => [
             'configurations' => [
@@ -29,7 +29,7 @@ return [
     ],
     PrimaryUuid::class => [
         'options' => [
-            'visible',
+            'select', 'visible',
         ],
         'version' => Uuid::VERSION_4,
         'factory_parameters' => [],
@@ -56,7 +56,7 @@ return [
         ],
         'proxy' => [
             'configurations' => [
-        
+
             ],
         ],
     ],
@@ -77,7 +77,7 @@ return [
             'self_reversed_pivot' => 'reversed_+{modelname}',
         ],
     ],
-    OneToOne::class => [
+    OneToOneUuid::class => [
         'options' => [
             'visible', 'fillable', 'required',
         ],
