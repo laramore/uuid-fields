@@ -12,7 +12,7 @@ namespace Laramore\Fields;
 
 use Illuminate\Support\Arr;
 use Ramsey\Uuid\Uuid as UuidGenerator;
-use Ramsey\Uuid\Lazy\LazyUuidFromString;
+use Ramsey\Uuid\UuidInterface;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Laramore\Exceptions\FieldException;
 
@@ -94,7 +94,7 @@ class Uuid extends BaseAttribute
             return $value;
         }
 
-        if (\is_string($value) || $value instanceof LazyUuidFromString) {
+        if (\is_string($value) || $value instanceof UuidInterface) {
             try {
                 try {
                     return UuidGenerator::fromString($value);
@@ -121,7 +121,7 @@ class Uuid extends BaseAttribute
             return $value;
         }
 
-        if (\is_string($value) || $value instanceof LazyUuidFromString) {
+        if (\is_string($value) || $value instanceof UuidInterface) {
             try {
                 try {
                     return UuidGenerator::fromString($value);
@@ -150,9 +150,9 @@ class Uuid extends BaseAttribute
     /**
      * Return a new generated uuid.
      *
-     * @return \Ramsey\Uuid\Lazy\LazyUuidFromString
+     * @return \Ramsey\Uuid\UuidInterface
      */
-    public function generate(): LazyUuidFromString
+    public function generate(): UuidInterface
     {
         $possibleConfig = $this->getFactoryConfig();
         $version = Arr::get($possibleConfig, 'formater', $this->version);
