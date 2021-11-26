@@ -75,8 +75,8 @@ class Uuid extends BaseAttribute
      */
     public function dry($value)
     {
-        if ($value instanceof UuidGenerator) {
-            return $value->getBytes();
+        if ($value instanceof UuidInterface) {
+            return $value->toString();
         }
 
         return $value;
