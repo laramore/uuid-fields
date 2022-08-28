@@ -82,7 +82,7 @@ return [
             'visible', 'fillable', 'required',
         ],
         'fields' => [
-            'id' => UniqueId::class,
+            'id' => Uuid::class,
             'reversed' => Reversed\HasOne::class,
         ],
         'templates' => [
